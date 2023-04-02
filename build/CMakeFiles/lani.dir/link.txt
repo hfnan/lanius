@@ -1,0 +1,1 @@
+/usr/bin/gcc -g  -rdynamic CMakeFiles/lani.dir/src/main.c.o  -o lani 

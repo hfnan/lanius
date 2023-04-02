@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/lanius.dir/src/main.c.o CMakeFiles/lanius.dir/src/repl.c.o  -o lanius 
