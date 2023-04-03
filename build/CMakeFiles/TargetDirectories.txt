@@ -1,3 +1,0 @@
-/root/lanius/build/CMakeFiles/rebuild_cache.dir
-/root/lanius/build/CMakeFiles/edit_cache.dir
-/root/lanius/build/CMakeFiles/lanius.dir
