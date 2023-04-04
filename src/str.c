@@ -1,20 +1,20 @@
-#include <bool.h>
+#include <utils.h>
 #include <str.h>
 #include <stdio.h>
 
-bool isblank(char c) {
+Bool isblank(char c) {
     return c == ' ' || c == '\t' || c == '\n';
 }
 
-string str_init(const string in) {
+String str_init(const String in) {
     if (!in) return NULL;
-    string out;
+    String out;
     asprintf(&out, "%s", in);
     return out;
 }
 
-string getstring() {
-    string s = str_init("");
+String getstring() {
+    String s = str_init("");
     char c;
     while ((c = getchar()) != '\n')
         str_extend(s, "%s%c", s, c);
@@ -22,7 +22,7 @@ string getstring() {
     return s;
 }
 
-string trim(string str) {
+String trim(String str) {
     int length = strlen(str);   
     if (length == 0) return str;
 
@@ -34,7 +34,7 @@ string trim(string str) {
     }
     str[j + 1] = 0;
 
-    string res;
+    String res;
     asprintf(&res, "%s", str + i);
     free(str);
     return res;

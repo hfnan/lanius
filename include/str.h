@@ -4,11 +4,12 @@
 #define _GNU_SOURCE // cause stdio.h to include asprintf
 #include <stdlib.h>
 #include <string.h>
+#include <utils.h>
 
-typedef char *string;
+typedef char *String;
 
 #define str_extend( wt, ...) {                      \
-    string tmp = (wt);                              \
+    String tmp = (wt);                              \
     if (asprintf(&(wt), __VA_ARGS__) < 0) abort();  \
     if (tmp) { free(tmp); tmp = NULL; }             \
 }
@@ -19,7 +20,7 @@ typedef char *string;
  */
 #define readline(str, prompt, ...) {    \
     printf(prompt, __VA_ARGS__);        \
-    string line = trim(getstring());    \
+    String line = trim(getstring());    \
     int length = strlen(line);          \
     str_extend(line, "%s;", line);      \
     str = line;                         \
@@ -27,10 +28,10 @@ typedef char *string;
 
 
 // str.c
-bool isblank(char c);
+Bool isblank(char c);
 
-string str_init(const string in);
-string getstring();
-string trim(string str);
+String str_init(const String in);
+String getstring();
+String trim(String str);
 
 #endif
