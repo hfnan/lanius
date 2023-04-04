@@ -1,6 +1,8 @@
 #include <token.h>
 #include <utils.h>
 
+
+
 Token *token_new(Token *token, TokenType type, String literal) {
     if (!token) token = malloc(sizeof(Token));
     token->type = type;
@@ -18,4 +20,5 @@ TokenVec *tokenvec_new(TokenVec *tokenvec) {
 
 Token *next_token(String buf) {
     // todo
+    
 }

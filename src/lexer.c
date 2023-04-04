@@ -6,16 +6,17 @@
 // debug
 #include <stdio.h>
 
+static int cur = 0;
+
 static void lexer_free(Lexer *lexer) {
     // todo: free all the attributes in Lexer
 }
 
 static void lexer_tokenize(Lexer *lexer, String buf) {
 
-    while (true) {
+    while (buf[cur]) {
         Token *token = next_token(buf);
         push_back(TokenVec, Token, &(lexer->tokenvec), token);
-        break;
     }
 }
 
