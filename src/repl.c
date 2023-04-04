@@ -9,6 +9,7 @@ static const string prompt = "$[%d]: ";
 static string buf;
 
 void run () {
+
     while (++ cnter) {
         readline(buf, prompt, cnter);
 

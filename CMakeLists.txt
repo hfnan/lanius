@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+# to use the struct more seamless
+add_compile_options("-fms-extensions")
+
 project(lanius)
 
 include_directories(./include)
