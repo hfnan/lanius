@@ -11,16 +11,13 @@ static String buf;
 
 
 void run () {
-
-    while (0 && ++ cnter) {
+    
+    while (++ cnter) {
         readline(buf, prompt, cnter);
 
-        Lexer *lexer = lexer_new(&lexer, buf);   
-        
+        Lexer *lexer = lexer_new(lexer, buf);   
+
         lexer->free(lexer);     
-
-        printf("(%s): %ld\n", buf, strlen(buf));
-
         puts("");
     }
 }

@@ -28,7 +28,7 @@ typedef char *String;
 
 
 // str.c
-Bool isblank(char c);
+Bool iswhite(char c);
 
 String str_init(const String in);
 String getstring();

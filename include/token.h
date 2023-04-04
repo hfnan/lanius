@@ -2,8 +2,14 @@
 #define INCLUDE_TOKEN_H
 
 #include <str.h>
+#include <utils.h>
 
 typedef enum TokenType {
+    KEYWORD,
+    SYMBOL,
+    ASSIGN,
+    HASH,
+
     NUMBER,
 
     LPAREN,
@@ -20,8 +26,12 @@ typedef struct Token {
 } Token;
 
 typedef struct TokenVec {
-    Token *tokenlist;
-    int len;
+    Token *array;
+    struct Vector;    
 } TokenVec;
 
+// token.c
+Token *token_new(Token *token, TokenType type, String literal);
+TokenVec *tokenvec_new(TokenVec *tokenvec);
+Token *next_token(String buf);
 #endif

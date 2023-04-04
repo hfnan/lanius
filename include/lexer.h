@@ -9,9 +9,9 @@ typedef struct Lexer {
         struct TokenVec;
         TokenVec tokenvec;
     };
-
-    void (*tokenize)(Lexer *lexer, String buf);
-    void (*free)(Lexer *lexer); 
+    
+    void (*tokenize)(struct Lexer *lexer, String buf);
+    void (*free)(struct Lexer *lexer); 
 } Lexer;
 
 // lexer.c

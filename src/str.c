@@ -2,7 +2,7 @@
 #include <str.h>
 #include <stdio.h>
 
-Bool isblank(char c) {
+Bool iswhite(char c) {
     return c == ' ' || c == '\t' || c == '\n';
 }
 
@@ -28,9 +28,9 @@ String trim(String str) {
 
     int i = 0, j = length - 1; 
     while (i <= j) {
-        if (!isblank(str[i]) && !isblank(str[j])) break;
-        if (isblank(str[i])) i ++ ;
-        if (isblank(str[j])) j -- ;
+        if (!iswhite(str[i]) && !iswhite(str[j])) break;
+        if (iswhite(str[i])) i ++ ;
+        if (iswhite(str[j])) j -- ;
     }
     str[j + 1] = 0;
 

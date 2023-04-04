@@ -3,13 +3,28 @@
 #include <str.h>
 #include <utils.h>
 
+// debug
+#include <stdio.h>
+
+static void lexer_free(Lexer *lexer) {
+    // todo: free all the attributes in Lexer
+}
+
+static void lexer_tokenize(Lexer *lexer, String buf) {
+
+    while (true) {
+        Token *token = next_token(buf);
+        push_back(TokenVec, Token, &(lexer->tokenvec), token);
+        break;
+    }
+}
+
 Lexer *lexer_new(Lexer *lexer, String buf) {
     // alloc the manual memory
     if (!lexer) lexer = malloc(sizeof(Lexer)); 
     
     // init the attribute
-    lexer->tokenlist = malloc(sizeof(Token) * BASE_LENGTH);
-    lexer->len = 0;
+    lexer->tokenvec = *tokenvec_new(&(lexer->tokenvec));
 
     // init the function
     lexer->tokenize = lexer_tokenize;
@@ -21,10 +36,3 @@ Lexer *lexer_new(Lexer *lexer, String buf) {
     return lexer;
 }
 
-static void lexer_free(Lexer *lexer) {
-    // todo: free all the attributes in Lexer
-}
-
-static void lexer_tokenize(Lexer *lexer, String buf) {
-
-}
