@@ -9,16 +9,8 @@ include_directories(./include)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-aux_source_directory(./src MAIN)
-aux_source_directory(./src/lexer LEXER)
-aux_source_directory(./src/exec EXEC)
-aux_source_directory(./src/str STR)
+add_subdirectory(./src)
 
-set(SRC
-    ${MAIN}
-    ${LEXER}
-    ${EXEC}
-    ${STR}
-    )
+set(SRC ${SRC_D})
 
 add_executable(${PROJECT_NAME} ${SRC})
