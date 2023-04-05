@@ -44,7 +44,7 @@ static void lexer_tokenize(Lexer *lexer) {
         token_print(token);
 #endif
 
-        push_back(TokenVec, Token, &(lexer->tokenvec), &token);
+        push_back(Token, &(lexer->tokenvec), &token);
         if (token.type == END) break;
     }
 }
@@ -82,7 +82,7 @@ static Token lexer_nexttoken(Lexer *lexer) {
     else if (ch == ')') {
         token = token_create(RPAREN, str_fromc(ch));
     }
-    else if (ch == ';') {
+    else if (ch == ',') {
         token = token_create(DELIM, str_fromc(ch));
     }
     else if (ch == 0) {

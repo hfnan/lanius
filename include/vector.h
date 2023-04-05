@@ -7,9 +7,9 @@ typedef struct Vector {
 } Vector;
 
 // vector push_back
-// todo: too many args! can be optimize
-#define push_back(Typevec, Type, vec, val) { \
-    Typevec *typevec = (Typevec *)(vec);    \
+// Use ## to make things easy
+#define push_back(Type, vec, val) { \
+    Type ## Vec *typevec = (Type ## Vec *)(vec);    \
     Type *new_array_ptr = typevec->array;   \
     if (typevec->len >= typevec->maxlen) {   \
         new_array_ptr = realloc(typevec->array, sizeof(Type) * (typevec->maxlen << 1));   \
@@ -22,8 +22,8 @@ typedef struct Vector {
 }
 
 // untested!
-#define pop_back(Typevec, Type, vec, val) {  \
-    Typevec *typevec = (Typevec *)(vec);    \
+#define pop_back(Type, vec, val) {  \
+    Type ## Vec *typevec = (Type ## Vec *)(vec);    \
     *(val) = typevec->array[ -- typevec->len];  \
     Type *new_array_ptr = typevec->array;   \
     if (typevec->len <= (typevec->maxlen >> 1)) { \

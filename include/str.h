@@ -22,7 +22,7 @@ typedef char *Str;
     printf(prompt, __VA_ARGS__);        \
     Str line = str_trim(str_getline());    \
     int length = strlen(line);          \
-    str_extend(line, "%s;", line);      \
+    str_extend(line, "%s,", line);      \
     str = line;                         \
 }
 
