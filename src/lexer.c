@@ -1,6 +1,5 @@
 #include <utils.h>
 #include <lexer.h>
-#include <token.h>
 #include <str.h>
 
 // debug
@@ -13,6 +12,20 @@ static void nextchar(Lexer *lexer) {
         lexer->ch = 0;
     else 
         lexer->ch = lexer->input[lexer->cur ++ ]; 
+}
+
+static void omitblank(Lexer *lexer) {
+    assert(lexer != NULL);
+    while (iswhite(lexer->ch)) 
+        nextchar(lexer);
+}
+
+static Bool isDigit(char ch) {
+    return ch >= '0' && ch <= '9';
+}
+
+static Bool isLetter(char ch) {
+    return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_';
 }
 
 static void lexer_free(Lexer *lexer) {
@@ -38,11 +51,20 @@ static void lexer_tokenize(Lexer *lexer) {
 
 // there is no need for token to use the pointer
 static Token lexer_nexttoken(Lexer *lexer) {
-    Token token;
+    // omit the black characters 
+    omitblank(lexer);
 
     char ch = lexer->ch;
 
-    if (ch == '+') {
+    Token token = token_create(ILLEGAL, str_fromc(ch));
+
+    if (isDigit(ch)) {
+        token = token_fromd(lexer);
+    }
+    else if (isLetter(ch)) {
+        token = token_froml(lexer);
+    }
+    else if (ch == '+') {
         token = token_create(ADD, str_fromc(ch));
     }
     else if (ch == '-') {
@@ -79,7 +101,7 @@ Lexer *lexer_new(Str input) {
     
     // create the attribute
     // use _create to avoid memory leak 
-    lexer->tokenvec = tokenvec_create(lexer->tokenvec);
+    lexer->tokenvec = tokenvec_create();
 
     // init the input string
     lexer->input = input;

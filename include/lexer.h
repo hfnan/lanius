@@ -22,4 +22,7 @@ typedef struct Lexer {
 // lexer.c
 Lexer *lexer_new(Str s);
 
+// token.c
+Token token_fromd(Lexer *lexer);
+Token token_froml(Lexer *lexer);
 #endif

@@ -1,5 +1,6 @@
-#include <token.h>
 #include <utils.h>
+#include <token.h>
+#include <lexer.h>
 
 
 
@@ -22,10 +23,21 @@ TokenVec *tokenvec_new(TokenVec *tokenvec) {
     return tokenvec;
 }
 
-TokenVec tokenvec_create(TokenVec tokenvec) {
-    tokenvec.array = realloc(tokenvec.array, sizeof(Token) * BASE_LENGTH);
+TokenVec tokenvec_create() {
+    TokenVec tokenvec;
+    tokenvec.array = malloc(sizeof(Token) * BASE_LENGTH);
     if (!tokenvec.array) abort();
     tokenvec.len = 0;
     tokenvec.maxlen = BASE_LENGTH;
     return tokenvec;
+}
+
+// get token from digit
+Token token_fromd(Lexer *lexer) {
+
+}
+
+// get token from letter
+Token token_froml(Lexer *lexer) {
+
 }
