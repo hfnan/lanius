@@ -1,38 +1,103 @@
+#include <utils.h>
 #include <lexer.h>
 #include <token.h>
 #include <str.h>
-#include <utils.h>
 
 // debug
 #include <stdio.h>
+#include <assert.h>
 
-static int cur = 0;
+static void nextchar(Lexer *lexer) {
+    assert(lexer != NULL);
+    if (lexer->cur >= lexer->str_len) 
+        lexer->ch = 0;
+    else 
+        lexer->ch = lexer->input[lexer->cur ++ ]; 
+}
 
 static void lexer_free(Lexer *lexer) {
     // todo: free all the attributes in Lexer
 }
 
-static void lexer_tokenize(Lexer *lexer, String buf) {
+static void lexer_tokenize(Lexer *lexer) {
+#ifdef LANIUS_DEBUG
+    printf("lexer.c/lexer_tokenize: \n");
+    printf("input string: '%s'\n", lexer->input);
+#endif
 
-    while (buf[cur]) {
-        Token *token = next_token(buf);
-        push_back(TokenVec, Token, &(lexer->tokenvec), token);
+    while (true) {
+        Token token = lexer->nexttoken(lexer);
+#ifdef LANIUS_DEBUG
+        token_print(token);
+#endif
+
+        push_back(TokenVec, Token, &(lexer->tokenvec), &token);
+        if (token.type == END) break;
     }
 }
 
-Lexer *lexer_new(Lexer *lexer, String buf) {
-    // alloc the manual memory
-    if (!lexer) lexer = malloc(sizeof(Lexer)); 
+// there is no need for token to use the pointer
+static Token lexer_nexttoken(Lexer *lexer) {
+    Token token;
+
+    char ch = lexer->ch;
+
+    if (ch == '+') {
+        token = token_create(ADD, str_fromc(ch));
+    }
+    else if (ch == '-') {
+        token = token_create(SUB, str_fromc(ch));
+    }
+    else if (ch == '*') {
+        token = token_create(STAR, str_fromc(ch));
+    }
+    else if (ch == '/') {
+        token = token_create(SLASH, str_fromc(ch));
+    }
+    else if (ch == '(') {
+        token = token_create(LPAREN, str_fromc(ch));
+    }
+    else if (ch == ')') {
+        token = token_create(RPAREN, str_fromc(ch));
+    }
+    else if (ch == ';') {
+        token = token_create(DELIM, str_fromc(ch));
+    }
+    else if (ch == 0) {
+        token = token_create(END, str_from(""));
+    }
+    else {
+        token = token_create(ILLEGAL, str_fromc(ch));
+    }
+    nextchar(lexer);
+    return token;
+}
+
+Lexer *lexer_new(Str input) {
+    // alloc lexer 
+    Lexer *lexer = malloc(sizeof(Lexer));
     
-    // init the attribute
-    lexer->tokenvec = *tokenvec_new(&(lexer->tokenvec));
+    // create the attribute
+    // use _create to avoid memory leak 
+    lexer->tokenvec = tokenvec_create(lexer->tokenvec);
+
+    // init the input string
+    lexer->input = input;
+    lexer->cur = 0;
+    lexer->str_len = strlen(input);    
+    nextchar(lexer);
 
     // init the function
     lexer->tokenize = lexer_tokenize;
+    lexer->nexttoken = lexer_nexttoken; // maybe need not to public it for others: delete it from here!
     lexer->free = lexer_free;
 
+#ifdef LANIUS_DEBUG
+    printf("lexer.c/lexer_new: before tokenize complete!\n");
+#endif
+ 
     // generate tokens from buffer 
-    lexer->tokenize(lexer, buf);
+    lexer->tokenize(lexer);
 
     return lexer;
 }

@@ -6,10 +6,10 @@
 #include <string.h>
 #include <utils.h>
 
-typedef char *String;
+typedef char *Str;
 
 #define str_extend( wt, ...) {                      \
-    String tmp = (wt);                              \
+    Str tmp = (wt);                              \
     if (asprintf(&(wt), __VA_ARGS__) < 0) abort();  \
     if (tmp) { free(tmp); tmp = NULL; }             \
 }
@@ -20,7 +20,7 @@ typedef char *String;
  */
 #define readline(str, prompt, ...) {    \
     printf(prompt, __VA_ARGS__);        \
-    String line = trim(getstring());    \
+    Str line = str_trim(str_getline());    \
     int length = strlen(line);          \
     str_extend(line, "%s;", line);      \
     str = line;                         \
@@ -30,8 +30,9 @@ typedef char *String;
 // str.c
 Bool iswhite(char c);
 
-String str_init(const String in);
-String getstring();
-String trim(String str);
+Str str_from(const Str in);
+Str str_fromc(const char ch);
+Str str_getline();
+Str str_trim(Str str);
 
 #endif

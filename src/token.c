@@ -3,11 +3,15 @@
 
 
 
-Token *token_new(Token *token, TokenType type, String literal) {
-    if (!token) token = malloc(sizeof(Token));
+Token *token_new(TokenType type, Str literal) {
+    Token *token = malloc(sizeof(Token));
     token->type = type;
     token->literal = literal;
     return token;
+}
+
+Token token_create(TokenType type, Str literal) {
+    return (Token) {.type = type, .literal = literal};
 }
 
 TokenVec *tokenvec_new(TokenVec *tokenvec) {
@@ -18,7 +22,10 @@ TokenVec *tokenvec_new(TokenVec *tokenvec) {
     return tokenvec;
 }
 
-Token *next_token(String buf) {
-    // todo
-    
+TokenVec tokenvec_create(TokenVec tokenvec) {
+    tokenvec.array = realloc(tokenvec.array, sizeof(Token) * BASE_LENGTH);
+    if (!tokenvec.array) abort();
+    tokenvec.len = 0;
+    tokenvec.maxlen = BASE_LENGTH;
+    return tokenvec;
 }

@@ -9,12 +9,17 @@ typedef struct Lexer {
         struct TokenVec;
         TokenVec tokenvec;
     };
+
+    Str input;
+    int str_len, cur;
+    char ch;
     
-    void (*tokenize)(struct Lexer *lexer, String buf);
+    void (*tokenize)(struct Lexer *lexer);
+    Token (*nexttoken)(struct Lexer *lexer);
     void (*free)(struct Lexer *lexer); 
 } Lexer;
 
 // lexer.c
-Lexer *lexer_new(Lexer *lexer, String s);
+Lexer *lexer_new(Str s);
 
 #endif

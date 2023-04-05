@@ -18,7 +18,7 @@ typedef struct Vector {
         typevec->array = new_array_ptr; \
         typevec->maxlen <<= 1;   \
     }   \
-    typevec->array[typevec->len ++ ] = *(val); \
+    typevec->array[typevec->len ++ ] = *(val);\
 }
 
 // untested!
@@ -29,7 +29,7 @@ typedef struct Vector {
     if (typevec->len <= (typevec->maxlen >> 1)) { \
         new_array_ptr = realloc(typevec->array, sizeof(Type) * (typevec->maxlen >> 1)); \
         if (!new_array_ptr) \
-            abort();        \ 
+            abort();        \
         typevec->maxlen >>= 1;  \
     }   \
 }

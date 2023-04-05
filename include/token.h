@@ -4,7 +4,15 @@
 #include <str.h>
 #include <utils.h>
 
+#define token_print(token) { \
+    printf("( tokentype: %d, literal: %s )\n", token.type, token.literal); \
+}
+
 typedef enum TokenType {
+    ILLEGAL,
+    END,
+    DELIM,
+
     KEYWORD,
     SYMBOL,
     ASSIGN,
@@ -22,7 +30,7 @@ typedef enum TokenType {
 
 typedef struct Token {
     TokenType type;
-    String literal;
+    Str literal;
 } Token;
 
 typedef struct TokenVec {
@@ -31,7 +39,8 @@ typedef struct TokenVec {
 } TokenVec;
 
 // token.c
-Token *token_new(Token *token, TokenType type, String literal);
+Token *token_new(TokenType type, Str literal);
+Token token_create(TokenType type, Str literal);
 TokenVec *tokenvec_new(TokenVec *tokenvec);
-Token *next_token(String buf);
+TokenVec tokenvec_create(TokenVec tokenvec);
 #endif
