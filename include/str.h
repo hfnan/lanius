@@ -1,9 +1,6 @@
 #ifndef INCLUDE_STR_H
 #define INCLUDE_STR_H
 
-#define _GNU_SOURCE // cause stdio.h to include asprintf
-#include <stdlib.h>
-#include <string.h>
 #include <utils.h>
 
 typedef char *Str;

@@ -1,12 +1,19 @@
 #ifndef INCLUDE_UTILS_H
 #define INCLUDE_UTILS_H
 
+#define _GNU_SOURCE // for asprintf
+
+// lib
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 #define LANIUS_DEBUG
-
-
 #define BASE_LENGTH 64
 
-#include <vector.h>
+
 
 // boolean
 typedef int Bool;

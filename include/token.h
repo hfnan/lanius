@@ -3,6 +3,7 @@
 
 #include <utils.h>
 #include <str.h>
+#include <vector.h>
 
 #ifdef LANIUS_DEBUG
 #define token_print(token) { \
@@ -13,43 +14,66 @@ static Str typelist[] = {
     "ILLEGAL",
     "END",
     "DELIM",
-
     "KEYWORD",
     "SYMBOL",
+    "NUMBER",
+
     "ASSIGN",
     "HASH",
-    
-    "NUMBER",
-    
-    "LPAREN",
-    "RPAREN",
+    "DOLLAR",
     "ADD",
     "SUB",
     "STAR",
     "SLASH",
+    "PERCENT",
+    
+    "LT",         
+    "GT",         
+    "LE",         
+    "GE",         
+    "EQUAL",      
+    "NE",         
+
+    "LPAREN",
+    "RPAREN",
+    "LBRACE",
+    "RBRACE",
 };
 
 #endif
 
 
 typedef enum TokenType {
+    // origin
     ILLEGAL,
     END,
     DELIM,
-
     KEYWORD,
     SYMBOL,
-    ASSIGN,
-    HASH,
-
     NUMBER,
 
-    LPAREN,
-    RPAREN,
-    ADD,
-    SUB,
-    STAR,
-    SLASH,
+    // operator
+    ASSIGN,     // => =
+    HASH,       // => #
+    DOLLAR,     // => $
+    ADD,        // => +
+    SUB,        // => -
+    STAR,       // => *
+    SLASH,      // => /
+    PERCENT,    // => %
+
+    // maybe not be used
+    LT,         // => <
+    GT,         // => >
+    LE,         // => <=
+    GE,         // => >=
+    EQUAL,      // => ==
+    NE,         // => !=
+
+    LPAREN,     // => (
+    RPAREN,     // => )
+    LBRACE,     // => {
+    RBRACE,     // => }
 } TokenType;
 
 typedef struct Token {

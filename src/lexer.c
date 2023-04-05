@@ -1,7 +1,7 @@
 #include <utils.h>
 #include <lexer.h>
 #include <str.h>
-
+#include <vector.h>
 // debug
 #include <stdio.h>
 #include <assert.h>
@@ -14,17 +14,20 @@ static void nextchar(Lexer *lexer) {
         lexer->ch = lexer->input[lexer->cur ++ ]; 
 }
 
+static char peekchar(Lexer *lexer) {
+    assert(lexer != NULL);
+    if (lexer->cur >= lexer->str_len) 
+        return 0;
+    return lexer->input[lexer->cur];
+}
+
 static void omitblank(Lexer *lexer) {
     assert(lexer != NULL);
     while (iswhite(lexer->ch)) 
         nextchar(lexer);
 }
 
-static Bool isDigit(char ch) {
-    return ch >= '0' && ch <= '9';
-}
-
-static Bool isLetter(char ch) {
+Bool isletter(char ch) {
     return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_';
 }
 
@@ -58,11 +61,17 @@ static Token lexer_nexttoken(Lexer *lexer) {
 
     Token token = token_create(ILLEGAL, str_fromc(ch));
 
-    if (isDigit(ch)) {
+    if (isdigit(ch)) {
         token = token_fromd(lexer);
     }
-    else if (isLetter(ch)) {
+    else if (isletter(ch)) {
         token = token_froml(lexer);
+    }
+    else if (ch == '#') {
+        token = token_create(HASH, str_fromc(ch));
+    }
+    else if (ch == '$') {
+        token = token_create(DOLLAR, str_fromc(ch));
     }
     else if (ch == '+') {
         token = token_create(ADD, str_fromc(ch));
@@ -76,11 +85,20 @@ static Token lexer_nexttoken(Lexer *lexer) {
     else if (ch == '/') {
         token = token_create(SLASH, str_fromc(ch));
     }
+    else if (ch == '%') {
+        token = token_create(PERCENT, str_fromc(ch));
+    }
     else if (ch == '(') {
         token = token_create(LPAREN, str_fromc(ch));
     }
     else if (ch == ')') {
         token = token_create(RPAREN, str_fromc(ch));
+    }
+    else if (ch == '{') {
+        token = token_create(LBRACE, str_fromc(ch));
+    }
+    else if (ch == '}') {
+        token = token_create(RBRACE, str_fromc(ch));
     }
     else if (ch == ',') {
         token = token_create(DELIM, str_fromc(ch));
@@ -113,6 +131,8 @@ Lexer *lexer_new(Str input) {
     lexer->tokenize = lexer_tokenize;
     lexer->nexttoken = lexer_nexttoken; // maybe need not to public it for others: delete it from here!
     lexer->free = lexer_free;
+    lexer->nextchar = nextchar;
+    lexer->peekchar = peekchar;
 
 #ifdef LANIUS_DEBUG
     printf("lexer.c/lexer_new: before tokenize complete!\n");

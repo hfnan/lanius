@@ -17,11 +17,14 @@ typedef struct Lexer {
     void (*tokenize)(struct Lexer *lexer);
     Token (*nexttoken)(struct Lexer *lexer);
     void (*free)(struct Lexer *lexer); 
+
+    void (*nextchar)(struct Lexer *lexer);
+    char (*peekchar)(struct Lexer *lexer);
 } Lexer;
 
 // lexer.c
 Lexer *lexer_new(Str s);
-
+Bool isletter(char ch);
 // token.c
 Token token_fromd(Lexer *lexer);
 Token token_froml(Lexer *lexer);
