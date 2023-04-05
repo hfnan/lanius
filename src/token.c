@@ -46,6 +46,7 @@ Token token_fromd(Lexer *lexer) {
 }
 
 // get token from letter
+// todo: maybe this function and previous function can be compounded
 Token token_froml(Lexer *lexer) {
     Str literal = str_fromc(lexer->ch);
     while (islod(lexer->peekchar(lexer))) {

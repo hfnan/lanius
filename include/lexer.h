@@ -25,7 +25,10 @@ typedef struct Lexer {
 // lexer.c
 Lexer *lexer_new(Str s);
 Bool isletter(char ch);
+
+
 // token.c
+// todo: use a .h file to contain the def of functions, maybe called 'defs.h'?
 Token token_fromd(Lexer *lexer);
 Token token_froml(Lexer *lexer);
 #endif

@@ -2,9 +2,7 @@
 #include <lexer.h>
 #include <str.h>
 #include <vector.h>
-// debug
-#include <stdio.h>
-#include <assert.h>
+
 
 static void nextchar(Lexer *lexer) {
     assert(lexer != NULL);
@@ -31,8 +29,10 @@ Bool isletter(char ch) {
     return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_';
 }
 
+// when Lexer changed, don't forget to inspect this function
 static void lexer_free(Lexer *lexer) {
-    // todo: free all the attributes in Lexer
+    free(lexer->array);
+    free(lexer);
 }
 
 static void lexer_tokenize(Lexer *lexer) {
@@ -52,7 +52,8 @@ static void lexer_tokenize(Lexer *lexer) {
     }
 }
 
-// there is no need for token to use the pointer
+// there is no need for Token to use the pointer
+// todo: add more tokens
 static Token lexer_nexttoken(Lexer *lexer) {
     // omit the black characters 
     omitblank(lexer);
@@ -72,6 +73,9 @@ static Token lexer_nexttoken(Lexer *lexer) {
     }
     else if (ch == '$') {
         token = token_create(DOLLAR, str_fromc(ch));
+    }
+    else if (ch == '=') {
+        token = token_create(ASSIGN, str_fromc(ch));
     }
     else if (ch == '+') {
         token = token_create(ADD, str_fromc(ch));

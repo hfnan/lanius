@@ -13,6 +13,8 @@ void run () {
         readline(input, prompt, cnter);
         Lexer *lexer = lexer_new(input);   
 
+        // todo: parser
+        // Parser *parser = parser_new(lexer);
 
         lexer->free(lexer);     
         puts("");
