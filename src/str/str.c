@@ -6,6 +6,14 @@ Bool iswhite(char c) {
     return c == ' ' || c == '\t' || c == '\n';
 }
 
+Bool isletter(char ch) {
+    return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_';
+}
+
+Bool islod(char ch) {
+    return isletter(ch) || isdigit(ch);
+}
+
 Str str_from(const Str in) {
     if (!in) return NULL;
     Str out;

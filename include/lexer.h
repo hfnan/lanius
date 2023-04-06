@@ -4,31 +4,27 @@
 #include <token.h>
 #include <str.h>
 
-typedef struct Lexer {
-    union {
-        struct TokenVec;
-        TokenVec tokenvec;
-    };
 
-    Str input;
+/**
+ * A pointer struct 
+ * Using for lexical analysis
+ */
+typedef struct Lexer {
+    
+    Str str_;
     int str_len, cur;
     char ch;
     
-    void (*tokenize)(struct Lexer *lexer);
-    Token (*nexttoken)(struct Lexer *lexer);
-    void (*free)(struct Lexer *lexer); 
-
-    void (*nextchar)(struct Lexer *lexer);
-    char (*peekchar)(struct Lexer *lexer);
+    void (*init)(struct Lexer* l_, Str in_);
+    void (*free)(struct Lexer* l_); 
+    Token* (*nexttoken)(struct Lexer* l_);
+    void (*nextchar)(struct Lexer* l_);
+    char (*peekchar)(struct Lexer* l_);
+    Token* (*fromnumber)(struct Lexer* l_);
+    Token* (*fromident)(struct Lexer* l_);
 } Lexer;
 
 // lexer.c
-Lexer *lexer_new(Str s);
-Bool isletter(char ch);
+Lexer* lexer_new();
 
-
-// token.c
-// todo: use a .h file to contain the def of functions, maybe called 'defs.h'?
-Token token_fromd(Lexer *lexer);
-Token token_froml(Lexer *lexer);
 #endif

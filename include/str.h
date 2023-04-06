@@ -15,17 +15,17 @@ typedef char *Str;
  * print the 'prompt' and read a line into 'str'
  * usage: readline(string buf, const string fmt, va_args);
  */
-#define readline(str, prompt, ...) {    \
-    printf(prompt, __VA_ARGS__);        \
+#define readline(str) {    \
     Str line = str_trim(str_getline());    \
-    int length = strlen(line);          \
     str_extend(line, "%s,", line);      \
     str = line;                         \
 }
 
 
 // str.c
-Bool iswhite(char c);
+Bool iswhite(char ch);
+Bool isletter(char ch);
+Bool islod(char ch);
 
 Str str_from(const Str in);
 Str str_fromc(const char ch);

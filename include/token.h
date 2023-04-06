@@ -76,18 +76,23 @@ typedef enum TokenType {
     RBRACE,     // => }
 } TokenType;
 
+
 typedef struct Token {
     TokenType type;
-    Str literal;
+    Str literal_;
+
+    void (*init)(struct Token* tk_, TokenType type, Str literal_);
+    void (*free)(struct Token* tk_);
 } Token;
 
+// maybe no need
 typedef struct TokenVec {
     Token *array;
     struct Vector;    
 } TokenVec;
 
 // token.c
-Token *token_new(TokenType type, Str literal);
+Token* token_new();
 Token token_create(TokenType type, Str literal);
 TokenVec *tokenvec_new(TokenVec *tokenvec);
 TokenVec tokenvec_create();

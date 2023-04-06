@@ -3,19 +3,34 @@
 #include <lexer.h>
 #include <vector.h>
 
-static Bool islod(char ch) {
-    return isletter(ch) || isdigit(ch);
+
+
+
+static void token_init(Token* tk_, TokenType type, Str literal_) {
+    if (tk_->literal_) free(tk_->literal_);
+    tk_->type = type;
+    tk_->literal_ = literal_;
 }
 
-Token *token_new(TokenType type, Str literal) {
-    Token *token = malloc(sizeof(Token));
-    token->type = type;
-    token->literal = literal;
-    return token;
+
+static void token_free(Token* tk_) {
+    free(tk_->literal_);
+    free(tk_);
+}
+
+
+Token* token_new() {
+    Token* tk_ = malloc(sizeof(Token));
+
+    // load functions
+    tk_->init = token_init;
+    tk_->free = token_free;
+
+    return tk_;        
 }
 
 Token token_create(TokenType type, Str literal) {
-    return (Token) {.type = type, .literal = literal};
+    return (Token) {.type = type, .literal_ = literal};
 }
 
 TokenVec *tokenvec_new(TokenVec *tokenvec) {
@@ -35,23 +50,5 @@ TokenVec tokenvec_create() {
     return tokenvec;
 }
 
-// get token from digit
-Token token_fromd(Lexer *lexer) {
-    Str literal = str_fromc(lexer->ch);
-    while (isdigit(lexer->peekchar(lexer))) {
-        lexer->nextchar(lexer);
-        str_extend(literal, "%s%c", literal, lexer->ch);
-    }
-    return (Token) {.type = NUMBER, .literal = literal};
-}
 
-// get token from letter
-// todo: maybe this function and previous function can be compounded
-Token token_froml(Lexer *lexer) {
-    Str literal = str_fromc(lexer->ch);
-    while (islod(lexer->peekchar(lexer))) {
-        lexer->nextchar(lexer);
-        str_extend(literal, "%s%c", literal, lexer->ch);
-    }
-    return (Token) {.type = SYMBOL, .literal = literal};
-}
+
