@@ -3,8 +3,21 @@
 
 // vector
 typedef struct Vector {
+    void**array;
     int len, maxlen;
 } Vector;
+
+
+#define vector_init(vector) { \
+    (vector).array = malloc(sizeof(void*) * BASE_LENGTH); \
+    (vector).len = 0; \
+    (vector).maxlen = BASE_LENGTH; \
+}
+
+
+#define vector_free(vector) { \
+    free((vector).array); \
+}
 
 // vector push_back
 // Use ## to make things easy

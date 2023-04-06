@@ -15,13 +15,13 @@ typedef struct Lexer {
     int str_len, cur;
     char ch;
     
-    void (*init)(struct Lexer* l_, Str in_);
-    void (*free)(struct Lexer* l_); 
-    Token* (*nexttoken)(struct Lexer* l_);
-    void (*nextchar)(struct Lexer* l_);
-    char (*peekchar)(struct Lexer* l_);
-    Token* (*fromnumber)(struct Lexer* l_);
-    Token* (*fromident)(struct Lexer* l_);
+    void (*init)(struct Lexer* self_, Str in_);
+    void (*free)(struct Lexer* self_); 
+    Token* (*nexttoken)(struct Lexer* self_);
+    void (*nextchar)(struct Lexer* self_);
+    char (*peekchar)(struct Lexer* self_);
+    Token* (*fromnumber)(struct Lexer* self_);
+    Token* (*fromident)(struct Lexer* self_);
 } Lexer;
 
 // lexer.c

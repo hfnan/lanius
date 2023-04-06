@@ -6,8 +6,8 @@
 #include <vector.h>
 
 #ifdef LANIUS_DEBUG
-#define token_print(token) { \
-    printf("( tokentype: %s, literal: %s )\n", typelist[token.type], token.literal); \
+#define token_print(token_) { \
+    printf("( type: %s, literal: %s )\n", typelist[(token_)->type], (token_)->literal_); \
 }
 
 static Str typelist[] = {
@@ -81,19 +81,10 @@ typedef struct Token {
     TokenType type;
     Str literal_;
 
-    void (*init)(struct Token* tk_, TokenType type, Str literal_);
-    void (*free)(struct Token* tk_);
+    void (*init)(struct Token* self_, TokenType type, Str literal_);
+    void (*free)(struct Token* self_);
 } Token;
-
-// maybe no need
-typedef struct TokenVec {
-    Token *array;
-    struct Vector;    
-} TokenVec;
 
 // token.c
 Token* token_new();
-Token token_create(TokenType type, Str literal);
-TokenVec *tokenvec_new(TokenVec *tokenvec);
-TokenVec tokenvec_create();
 #endif

@@ -5,37 +5,47 @@
 #include <vector.h>
 
 typedef enum AstType {
-    TYPE,
+    PROGRAM,
 } AstType;
 
+// every astNode should put this struct at the top of their struct
 typedef struct SNode {
     AstType asttype;
-    Str (*asso_token)();
+    Str (*assotoken)(void* self_);
 } SNode;
+
 
 typedef struct Stmt {
     struct SNode;
+    void (*stmtnode)();
 } Stmt;
 
-typedef struct StmtVec {
-    Stmt *array;
-    struct Vector;
-} StmtVec;
 
-typedef struct Expression {
+typedef struct Expr {
     struct SNode;
-} Expression;
+    void (*exprnode)();
+} Expr;
+
 
 typedef struct Program {
-    struct SNode;
+    struct Stmt;
     union {
-        struct StmtVec;
-        StmtVec stmtvec;
-    };    
+        struct Vector;
+        Vector stmtvec;
+    };
+
+    void (*init)(struct Program* self_);
 } Program;
 
 typedef struct AssignStmt {
     
 } AssignStmt;
+
+
+// ast.c
+void stmtnode();
+void exprnode();
+
+Program* program_new();
 
 #endif

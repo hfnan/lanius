@@ -14,15 +14,15 @@ void run () {
 
         Str input_;
         
-        Lexer* l_ = lexer_new();
+        Lexer* lexer_ = lexer_new();
         
-        readline(input_)
+        readline(input_);
 
-        printf("%s\n", input_);
-        l_->init(l_, input_);   
+        lexer_->init(lexer_, input_);   
 
+#ifdef LEXER_DEBUG
         while (true) {
-            Token* tk_ = l_->nexttoken(l_);
+            Token* tk_ = lexer_->nexttoken(lexer_);
             printf("{ type: %s, literal: %s }\n", typelist[tk_->type], tk_->literal_);
             if (tk_->type == END) {
                 tk_->free(tk_);
@@ -30,6 +30,12 @@ void run () {
             }
             tk_->free(tk_);
         }
+#endif
+
+        Parser* parser_ = parser_new();       
+        parser_->init(parser_, lexer_); 
+
+        parser_->parse(parser_);
         
 
         puts("");

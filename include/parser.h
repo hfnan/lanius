@@ -5,14 +5,18 @@
 #include <ast.h>
 
 typedef struct Parser {
-    union {
-        struct Lexer;
-        Lexer lexer;
-    };
+    Lexer* l_;
 
-    Token curtoken, peektoken;
+    Token* ctk_,* ptk_;
 
-    Program *(*parse)(struct Parser *parser);
+    void (*init)(struct Parser* self_, Lexer* l_);
+    void (*free)(struct Parser* self_);
+    Program* (*parse)(struct Parser* self_);
+    Stmt* (*parse_stmt)(struct Parser* self_);
+    void (*advancetoken)(struct Parser* self_);
 } Parser;
+
+// parser.c
+Parser* parser_new();
 
 #endif
